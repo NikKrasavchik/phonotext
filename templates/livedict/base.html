@@ -1,0 +1,54 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Живой стилистический словарь русского языка - {% block title %}{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500,600,700&amp;display=swap&amp;subset=cyrillic" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+        {% if g.url_prefix -%}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/')}}{{ g.url_prefix }}.css?07.01.2020">
+        {% endif %}
+    </head>
+    <body style="background-color: #F0FFF0">
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #008000;">
+  <a class="navbar-brand" href="{{ url_for('livedict.index') }}">Live Dictionary</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item" style="border-right: 1px solid black">
+            {% block baseurl %}{% endblock %}
+        </li>
+        {%- block submenu %}
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('livedict.predict_word_OLD') }}">Словарь</a></li>
+<!--           <li class="nav-item"><a class="nav-link" href="{{ url_for('livedict.predict_word') }}">Словарь v.2 (2020)</a></li> -->
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('livedict.predict_text') }}">Стилевой подсказчик</a></li>
+<!--          <li class="nav-item"><a class="nav-link" href="{{ url_for('livedict.history_word') }}">Историческая картина слова</a></li> -->
+        {% endblock -%}
+    </ul>
+  </div>
+</nav>
+<nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-light">
+  {%- block bottom %}{% endblock -%}
+</nav>
+<center>
+{% for message in get_flashed_messages() %}
+<span class="flash">{{ message }}</span><br/>
+{% endfor %}</div></center>
+        <center><section class="content">
+            {% block header %}{% endblock %}
+            {% block content %}{% endblock %}
+        </section></center>
+        <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/list.min.js')}}"></script>
+        {% if g.url_prefix -%}
+            <script src="{{ url_for('static', filename='js/')}}{{ g.url_prefix }}.js"></script>
+        {% endif %}
+    </body>

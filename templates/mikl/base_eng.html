@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block baseurl %}
+<!-- <a class="nav-link" href="{{ url_for('mikl.index') }}">Фонотекст</a> -->
+{% endblock %}
+
+{% block name %}PHONOTEXT{% endblock %}
+
+{% block title %}Phonotext{% endblock %}
+
+{% block content %}
+{% autoescape flase%}
+<div id="cont">
+    <ul class="nav nav-tabs" id="list-tab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="list-home-list" data-toggle="list" href="#data" role="tab" aria-controls="home">Text</a></li>
+        <li class="nav-item"><a class="nav-link" id="list-home-list" data-toggle="list" href="#about" role="tab" aria-controls="home">Description (in Russian)</a></li>
+	</ul>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="data" role="tabpanel" aria-labelledby="list-home-list">
+        	<form action=?lng=lng method="POST"  style='width:100%'>
+                <div style="padding: 10px;">
+                    <div><span style="width:260px; display: inline-block;">Combninations power filter:</span> <input data-slider-id="sl1" name="filter" type="text" class="slider" value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.05" data-slider-value="[0.6,1]"/></div>
+                    <div><span style="width:260px; display: inline-block;">Chains filter:</span> <input data-slider-id="sl2" name="filter_r" type="text" class="slider" value="" data-slider-min="0" data-slider-max="400" data-slider-step="0.1" data-slider-value="[0,400]"/></div>
+                </div>
+                <textarea name="text" style="width:100%;height:calc(100vh - 350px)">{{base_text}}</textarea><br/>
+				<center><input type="submit" name="" value="Analize text" class="btn btn-primary" onclick="my_send()"/> <!-- <input type="button" name="" value="Get result in TXT" class="btn btn-primary" onclick="my_send_stat()" /> <input type="button" name="" value="Repeats image" class="btn btn-primary" onclick="my_send_svg()" /> --></center>
+			</form>
+        </div>
+        <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="list-home-list">
+            <p>Для проведения массовых обработок текста под системой <strong>Windows</strong> необходимо наличие <strong>Powershell</strong> (установлен по умолчание в любой Windows после Win7 SP1).</p>
+            <p>Вам необходимо скачать файл <a class='btn' href="{{ url_for('static', filename='sendall.cmd') }}">sendall.cmd</a> в папку, содержащую тексты в <code>.txt</code> формате и запустить его. Результат работы будет помещен в файлы c теми-же именем и приставкой <code>res_</code></p>
+            <p> Кроме того, вы можете применить скрипт, аналогичный следующим:<br/>
+            <strong>PowerShell</strong><br/>
+            <pre style="border:1px solid black; margin 10px; padding:5px;">
+echo Start
+$files = Get-ChildItem *.txt -Name
+foreach ($file in $files) {
+    echo "Send $file"
+    $data = `Get-Content -encoding UTF8 $file
+    $params = @{simple="1";filter="6,10";filter_r="0,10000";text="$data"}
+    Invoke-WebRequest -URI http://phonotext.syllabica.com/statistic?lng=ru -METHOD POST -Body $params -OutFile res_$file
+}</pre>
+            <strong>Linux Bash</strong><br/>
+            <pre style="border:1px solid black; margin 10px; padding:5px;">
+for f in `ls *.txt`
+do
+    wget -O ./res/$f --post-data "filter=0,10&filter_r=0,100000&text=`cat $f`" http://phonotext.syllabica.com/statistic?lng=ru 2> /dev/null
+done</pre>
+    
+            <strong>Обязательно:</strong> файлы должны быть текстовыми (<code>.doc</code> и подобные не подойдут)<br/>
+            измените параметры фильтра на свои.
+            <p>Результаты содержат: картины повторов для каждого файла в отдельности.</p>
+            <p>Картина повторов представлена два раза, в различных форматах:<br/>
+            Первый – <i>номер повтора</i> [<i>суммарный ИСА-1</i>; <i>средний ИСА-1</i>] собственно повторы;<br/>
+            Второй – <i>номер повтора</i>: номера букв.</p></p>
+        </div>
+    </div>
+</div>
+{% endautoescape %}
+{% endblock %}
+
+
+{% block submenu %}
+{% endblock %}
+
+{% block bottom %}
+<span style="line-height:2px">© Г.В. Векшин. Фоносиллабическая концепция структуры текста, 2017. <span style="font-size:2em">&nbsp;/&nbsp;</span> © Г.В. Векшин, А.К. Алферова. Phonotext 2.0. Software, 2017. <span style="font-size:2em">&nbsp;/&nbsp;</span> © М.Н. Герцев</span>
+{% endblock %}

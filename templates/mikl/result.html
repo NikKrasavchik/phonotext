@@ -1,0 +1,60 @@
+{% extends 'mikl/base.html' %}
+
+{% block content %}
+{% autoescape flase%}
+<div id="cont">
+    <ul class="nav nav-tabs" id="list-tab" role="tablist">
+        <li class="nav-item"><a class="nav-link" id="list-home-list" data-toggle="list" href="#data" role="tab" aria-controls="home">Текст</a></li>
+        <li class="nav-item"><a class="nav-link active" id="list-profile-list" data-toggle="list" href="#text" role="tab" aria-controls="profile">Повторы</a></li>
+        <li class="nav-item"><a class="nav-link" id="list-profile-list" data-toggle="list" href="#img" role="tab" aria-controls="profile">Статистика</a></li>
+        <li class="nav-item"><a class="nav-link" id="list-messages-list" data-toggle="list" href="#spmax" role="tab" aria-controls="messages">SP(max)/Комбинации</a></li>
+        <li><button class="colorbtn" id="color0btn" data-jscolor="{onInput:'root_edit(this, 0)',}" style="background-color: hsl(var(--cl0h), 90%, var(--cl0l));"></button></li>
+        <li><button class="colorbtn" id="color1btn" data-jscolor="{onInput:'root_edit(this, 1)',}" style="background-color: hsl(var(--cl1h), 90%, var(--cl1l));"></button></li>
+        <li><button class="colorbtn" id="color2btn" data-jscolor="{onInput:'root_edit(this, 2)',}" style="background-color: hsl(var(--cl2h), 90%, var(--cl2l));"></button></li>
+        <li><button class="colorbtn" id="color3btn" data-jscolor="{onInput:'root_edit(this, 3)',}" style="background-color: hsl(var(--cl3h), 90%, var(--cl3l));"></button></li>
+        <li><button class="colorbtn" id="color4btn" data-jscolor="{onInput:'root_edit(this, 4)',}" style="background-color: hsl(var(--cl4h), 90%, var(--cl4l));"></button></li>
+        <li><button class="colorbtn" id="color5btn" data-jscolor="{onInput:'root_edit(this, 5)',}" style="background-color: hsl(var(--cl5h), 90%, var(--cl5l));"></button></li>
+        <li><button class="colorbtn" id="color6btn" data-jscolor="{onInput:'root_edit(this, 6)',}" style="background-color: hsl(var(--cl6h), 90%, var(--cl6l));"></button></li>
+        <li><button class="colorbtn" id="color7btn" data-jscolor="{onInput:'root_edit(this, 7)',}" style="background-color: hsl(var(--cl7h), 90%, var(--cl7l));"></button></li>
+        <li><button class="colorbtn" id="color8btn" data-jscolor="{onInput:'root_edit(this, 8)',}" style="background-color: hsl(var(--cl8h), 90%, var(--cl8l));"></button></li>
+        <li><button class="colorbtn" id="color9btn" data-jscolor="{onInput:'root_edit(this, 9)',}" style="background-color: hsl(var(--cl9h), 90%, var(--cl9l));"></button></li>
+    </ul>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="list-home-list">
+        	<form action=?lng=lng method="POST"  style='width:100%'>
+                <div style="padding: 5px 20px 5px 5px;">
+                    <!-- <div style="display:flex; flex-direction: column; width100%;"> -->
+                    <div style="display:grid; width: 100%; grid-template-columns: 270px auto;">
+
+                        <!-- <div style="display:flex; flex-direction:row; flex-wrap: wrap; column-rule-width: 270px;"> -->
+                            <div style="mwidth: 270px;">Фильтр комбинаций по ИАС-1:</div>
+                            <input data-slider-id="sl1" name="filter" type="text" class="slider" value="" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="[{{filter[0]}},{{filter[1]}}]"/>
+                        <!-- </div> -->
+
+                        <!-- <div style="display:flex; flex-direction:row; flex-wrap: wrap; column-rule-width: 270px;"> -->
+                        <!-- <div style="mwidth: 270px;">Фильтр цепочек по суммарной силе:</div>
+                            <input data-slider-id="sl2" name="filter_r" type="text" class="slider" value="" data-slider-min="0" data-slider-max="400" data-slider-step="0.1" data-slider-value="[{{filter[2]}},{{filter[3]}}]"/>-->
+                        <!-- </div> -->
+                    </div>
+                </div>
+<!--                 Фильтр комбинаций с <input name="filter_min" type=text value=0> &lt; ИАС-1 &lt; <input name="filter_max" type=text value=11> и цепочек c <input name="filter_r_min" type=text value=0> &le; ∑ &le; <input name="filter_r_max" type=text value=100000><br/>
+ -->				<textarea name="text" style="width:100%;height:calc(100vh - 250px)">{{base_text}}</textarea><br/>
+				<center>
+					<input class="btn btn-primary" type="button" name="" value="Очистить" onclick="$('textarea').val('');" />
+                    <input class="btn btn-primary" type="submit" name="" value="Анализировать текст", onclick="my_send()"/>
+                    <input type="button" name="" value="Вывод данных в TXT" class="btn btn-primary" onclick="my_send_stat()" />
+                    <input type="button" name="" value="Картина повторов" class="btn btn-primary" onclick="my_send_svg()" />
+				</center>
+			</form>
+        </div>
+        <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="list-profile-list" style="overflow: hidden;"><div id="txt" style="width:35%;position:relative;">{{text}}</div><div class="hslide"></div><div id="repeats" style="display:flex;flex-direction: column;"><div><div id='show_simple' class='btn btn-outline-secondary' style="cursor:pointer;padding: 1px;">⇨</div>Σ<input type="button" class="btn btn-outline-secondary" style="padding: 1px;" id="sort_sum" value="□"/>x̅<input type="button" class="btn btn-outline-secondary" style="padding: 1px;" id="sort_mean" value="□"/>N<input type="button" class="btn btn-outline-secondary" style="padding: 1px;" id="sort_cnt" value="□"/><div></div><input id="filter" style="width:100%"/></div>{{repeat}}</div></div>
+    	<div class="tab-pane fade" id="img" role="tabpanel" aria-labelledby="list-profile-list">{{img}}</div>
+        <div class="tab-pane fade" id="spmax" role="tabpanel" aria-labelledby="list-messages-list"><span>{{spmax}}</span><span>{{comb}}</span></div>
+    </div>
+</div>
+{% endautoescape %}
+{% endblock %}
+
+
+{% block submenu %}
+{% endblock %}

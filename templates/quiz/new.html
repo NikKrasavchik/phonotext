@@ -1,0 +1,11 @@
+{% extends 'quiz/base.html' %}
+
+{% block name %}{% block title %}Quiz{% endblock %}{% endblock %}
+
+{% block content %}
+<form method=post action=? style="text-align: center; margin-top: 5px;">
+	<textarea name=text style="width:80vw;height:80vh;"></textarea><br/>
+	<input type="submit" name="send">
+</form>
+	<div style="color:red;padding:10px;">{{text}}</div>
+{% endblock %}

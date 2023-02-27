@@ -1,0 +1,86 @@
+{% extends 'livedict/base.html' %}
+
+{% block name %}{% endblock %}
+
+{% block submenu %}
+<li><a class="nav-link" href="{{ url_for('quiz.dbstat') }}" onclick="showmodal(this)">Информация</a></li>
+{% endblock %}
+
+{% block baseurl %}
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+<style>
+  #table_full > .div-form-row,.subdiv {
+    width:{{ (headers.__len__() + 2) * 200 }}px;
+  }
+  #navbarColor01 > ul.navbar-nav.form-inline.my-1.my-lg-0{
+    visibility: hidden;
+  }
+</style>
+<form method="post" action=? class="row" style="width:90vw">
+  <div class="input-group mb-1">
+    <div class="input-group-prepend">
+    <input type="button" class="btn btn-outline-secondary" data-html="true" data-toggle="tooltip" data-placement="bottom" title="" value="Текст:" data-original-title="<div align=left>Введите слово, которое необходимо найти</div>">
+
+    </div>
+      <input class="form-control" name="word" type="text" value="{{ word }}">
+      <input type="button" class="btn btn-outline-secondary" data-html="true" data-toggle="tooltip" data-placement="bottom" title="" value="Фильтр" data-original-title="<div align=left>SQL фильтр выдаваемых результатов. Например: <br/> N > 40 <br/> user = 1 and N > 40 <br/> field1 like %текст%</div>">
+      <input class="form-control" name="where" type="text" value="{{ where }}">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-outline-primary">Запрос</button>
+    </div>
+  </div>
+
+  <div class="input-group">
+      <input type="button" class="btn btn-outline-secondary" data-html="true" data-toggle="tooltip" data-placement="bottom" title="" value="Искать в:" data-original-title="Выберите стиль текста, где необходимо осуществлять поиск">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Все"    onclick="$('*[name=where]').val('1')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Художественные" onclick="$('*[name=where]').val('field7 like \'%1%\'')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Религиозные"    onclick="$('*[name=where]').val('field7 like \'%2%\'')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Научные"        onclick="$('*[name=where]').val('field7 like \'%3%\'')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Идеологические" onclick="$('*[name=where]').val('field7 like \'%4%\'')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Официально-деловые"  onclick="$('*[name=where]').val('field7 like \'%5%\'')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Разговорные"    onclick="$('*[name=where]').val('field7 like \'%6%\'')">
+  </div>
+</form>
+
+  <div id="table_full">
+    <header class="div-form-row">
+      <span> N </span><span> user </span>
+      {%- for i in range(headers.__len__()) -%}
+        <span><a href="javascript:$('#help{{ i }}').css('visibility',$('#help{{ i }}').css('visibility')=='visible'?'hidden':'visible')">{{ headers[i][1] }}</a></span>
+      {%- endfor -%}
+    </header>
+  {% for row in rows %}
+    <div class="div-form-row">
+      <span><a class="btn btn-sm btn-outline-primary" onclick="showmodal(this)" href="{{ url_for('quiz.details') }}52e8fe1ac58dc6be0cfa3c1f129aab57/{{ row[0] }}">{{ row[0] }}</a></span><span>{{ row[1] }}</span>
+      {%- for i in range(headers.__len__()) -%}
+        <span>{{ row[2 + i] }}</span>
+      {%- endfor -%}
+    </div>
+  {%- endfor %}
+  </div>
+<form method="post" action=? class="row" style="width:90vw"> 
+  <div class="input-group">
+    {%- for el in routes -%}
+      {%- if el.__len__() == 2 -%}
+        <a class="btn btn-sm btn-outline-secondary form-control" href="{{ url_for('quiz.dump', N=el[0]) }}">{{ el[1] }}</a>
+      {%- else -%}
+        <a class="btn btn-sm btn-secondary form-control" href="{{ url_for('quiz.dump', N=el[0]) }}">{{ el[1] }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</form>
+
+  {% for i in range(forms.__len__()) %}
+    <div id="help{{ i }}" class='helper'><pre>{{ forms[i] }}</pre></div>
+  {% endfor %}
+  <div id="help" class='helper'></div>
+
+{% endblock %}

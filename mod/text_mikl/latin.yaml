@@ -1,0 +1,67 @@
+---
+volves:
+ ["--endl", "\n", a, e, i, o, u, ae, oe]
+
+consonants:
+  [q, w, r, t, y, p, s, d, f, g, h, j, k, l, z, x, c, v, b, n, m, ph, ch, rh, th]
+
+alphabet: qwertyuiopasdfghjklzxcvbnmāăēĕīĭōŏūŭäëïöü
+
+as_same:
+  - ["--endl", "\n"]
+  - ["|", " "]
+  - [f, ph, v]
+  - ckqgx
+  - [ch, h]
+  - [rh, r]
+  - [th, d, t]
+  - bp
+  - aāăä
+  - eēĕë
+  - iīĭï
+  - oōŏö
+  - uūŭü
+
+
+as_one:
+  - ae
+  - oe
+  - ph
+  - ch
+  - rh
+  - th
+
+modifications:
+  "\nz": "\nds"
+  " z": " ds"
+  qz: qds
+  wz: wds
+  ez: eds
+  rz: rds
+  tz: tds
+  yz: yds
+  uz: uds
+  iz: ids
+  oz: ods
+  pz: pds
+  az: ads
+  sz: sds
+  dz: dds
+  fz: fds
+  gz: gds
+  hz: hds
+  jz: jds
+  kz: kds
+  zz: zds
+  lz: lds
+  xz: xds
+  cz: cds
+  vz: vds
+  bz: bds
+  nz: nds
+  mz: mds
+
+re_sub:
+  "u([euioa])": "v\\1"
+  "\\bi([euioa])" : "j\\1"
+

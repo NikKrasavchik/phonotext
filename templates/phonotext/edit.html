@@ -1,0 +1,237 @@
+{% extends 'phonotext/base.html' %}
+
+{% block content %}
+<div class="wrap">
+    <section style="text-align: left">
+        <div class="row">
+            <div class="{% if request.path[:10] == '/base/text' %} col-md-12 col-lg-4 {% else %} col-md-12 col-lg-3 {% endif %} list left-col">
+                <div class="jumbotron left-jumb">
+                    <div class="form-group" {% if request.path[:10] == "/base/text" %} style="text-align: center;" {% endif %}>
+                        {% if (request.path[:10]=="/base/edit" or request.path[:10] == "/base/inte") %}
+                            <input class="form-control" type="text" id="author-name" oninput="unsaved(1)" placeholder="Автор произведения" title="Автор произведения"
+                                   {% if analyzed_text and analyzed_text.author %} value="{{analyzed_text.author}}" {% endif %}>
+                            <input class="form-control" type="text" id="text-name" oninput="unsaved(1)" placeholder="Название произведения" title="Название произведения"
+                                   {% if analyzed_text and analyzed_text.name %} value="{{analyzed_text.name}}" {% endif %}>
+                    </div>
+                    <div class="form-group" {% if request.path[:10] == "/base/text" %} style="text-align: center;" {% endif %}>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="text-series" oninput="unsaved(1)" placeholder="Цикл" title="Цикл"
+                                       {% if analyzed_text and analyzed_text.series %} value="{{analyzed_text.series}}" {% endif %}>
+                                <input class="form-control" type="text" id="text-year" oninput="unsaved(1)" placeholder="Год" title="Год"
+                                       {% if analyzed_text and analyzed_text.year %} value="{{analyzed_text.year}}" {% endif %}>
+                            </div>
+                            <hr class="hr-add">
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="choose-ias1" onchange="inter_analyze()" placeholder="ИАС-1" title="Минимальный ИАС-1"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][0]}}" {% endif %}>
+                                <input class="form-control" type="text" id="choose-ias2" onchange="inter_analyze()" placeholder="ИАС-2" title="Минимальный ИАС-2"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][1]}}" {% endif %}>
+                                <input class="form-control" type="text" id="choose-iasf" onchange="inter_analyze()" placeholder="ИАС-Ф" title="Минимальный ИАС-Ф"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][2]}}" {% endif %}>
+                            </div>
+                            <hr class="hr-add">
+                        {% else %}
+                            {% if analyzed_text and analyzed_text.author %} <label id="author_name">Автор: {{analyzed_text.author}}</label><br> {% endif %}
+                            {% if analyzed_text and analyzed_text.name %} <label id="text_name">Произведение: {{analyzed_text.name}}</label><br> {% endif %}
+                            {% if analyzed_text and analyzed_text.series %} <label id="text_series">Цикл: {{analyzed_text.series}}</label><br> {% endif %}
+                            {% if analyzed_text and analyzed_text.year %} <label id="text_year">Год: {{analyzed_text.year}}</label><br> {% endif %}
+                            {% if analyzed_text and (analyzed_text.year or analyzed_text.series or analyzed_text.name or analyzed_text.author) %}<hr class="hr-add">{% endif %}
+                        <label>Минимальные ИАС (1/2/Ф):</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="choose-ias1" disabled placeholder="ИАС-1" title="Минимальный ИАС-1"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][0]}}" {% endif %}>
+                                <input class="form-control" type="text" id="choose-ias2" disabled placeholder="ИАС-2" title="Минимальный ИАС-2"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][1]}}" {% endif %}>
+                                <input class="form-control" type="text" id="choose-iasf" disabled placeholder="ИАС-Ф" title="Минимальный ИАС-Ф"
+                                       {% if analyzed_text and analyzed_text.settings[2][0] %} value="{{analyzed_text.settings[2][2]}}" {% endif %}>
+                            </div>
+                            {% if analyzed_text and (analyzed_text.settings[2][0] or analyzed_text.settings[2][1] or analyzed_text.settings[2][2]) %}<hr class="hr-add">{% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group" {% if request.path[:10] == "/base/text" %} style="text-align: center;" {% endif %}>
+                        <div style="text-align: center">
+                            {% if request.path[:10]=="/base/edit" or request.path[:10] == '/base/inte' %}
+                                <form>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                        <label class="btn btn-secondary {% if analyzed_text and analyzed_text.private == True %} active {% endif %}">
+                                            <input type="checkbox" id="private" name="options" onchange="unsaved(1)" autocomplete="off"
+                                                   {% if analyzed_text and analyzed_text.private == True %} checked {% endif %}> Приватный доступ
+                                        </label>
+                                    </div>
+                                </form>
+                            <hr class="hr-add">
+                            {% endif %}
+                            <form>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                    <label class="btn btn-secondary" id="lang">
+                                        <input type="checkbox" disabled> {{analyzed_text.settings[3]}}
+                                    </label>
+                                </div>
+                            </form>
+                            <hr class="hr-add">
+                            <span>Консонанты</span>
+                            <form>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                    <label class="btn btn-secondary {% if analyzed_text and analyzed_text.settings[0][0] == 'true' %} active {% endif %}">
+                                        <input type="checkbox" name="options" onchange="inter_analyze()" id="cons1" autocomplete="off"
+                                               {% if analyzed_text and analyzed_text.settings[0][0] == 'true' %} checked {% endif %}{% if request.path[:10] == "/base/text" %} disabled {% endif %}> 2
+                                    </label>
+                                    <label class="btn btn-secondary {% if analyzed_text and analyzed_text.settings[0][1] == 'true' %} active {% endif %}">
+                                        <input type="checkbox" name="options" onchange="inter_analyze()" id="cons2" autocomplete="off"
+                                               {% if analyzed_text and analyzed_text.settings[0][1] == 'true' %} checked {% endif %}{% if request.path[:10] == "/base/text" %} disabled {% endif %}> 3
+                                    </label>
+                                    <label class="btn btn-secondary {% if analyzed_text and analyzed_text.settings[0][2] == 'true' %} active {% endif %}">
+                                        <input type="checkbox" name="options" onchange="inter_analyze()" id="cons3" autocomplete="off"
+                                               {% if analyzed_text and analyzed_text.settings[0][2] == 'true' %} checked {% endif %}{% if request.path[:10] == "/base/text" %} disabled {% endif %}> 4+
+                                    </label>
+                                </div>
+                            </form>
+                            {% if analyzed_text.settings[3] == 'russian' %}
+                                <hr class="hr-add">
+                                <span>Общность согласных</span>
+                                <form>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                        <label class="btn btn-secondary {% if analyzed_text and analyzed_text.settings[1][0] == 'true' %} active {% endif %}">
+                                            <input type="checkbox" name="options" onchange="inter_analyze()" id="comm1" autocomplete="off"
+                                                   {% if analyzed_text and analyzed_text.settings[1][0] == 'true' %} checked {% endif %}{% if request.path[:10] == "/base/text" %} disabled {% endif %}> ш-щ-ж-ч
+                                        </label>
+                                        <label class="btn btn-secondary {% if analyzed_text and analyzed_text.settings[1][1] == 'true' %} active {% endif %}">
+                                            <input type="checkbox" name="options" onchange="inter_analyze()" id="comm2" autocomplete="off"
+                                                   {% if analyzed_text and analyzed_text.settings[1][1] == 'true' %} checked {% endif %}{% if request.path[:10] == "/base/text" %} disabled {% endif %}> к-г-х
+                                        </label>
+                                    </div>
+                                </form>
+                            {% endif %}
+                            <hr>
+                            <span>Карты</span>
+                            <form>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                    <label class="btn btn-secondary">
+                                        <input type="checkbox" name="options" onchange="ias_map(0)" id="ias1" autocomplete="off"> ИАС-1
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input type="checkbox" name="options" onchange="ias_map(1)" id="ias2" autocomplete="off"> ИАС-2
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input type="checkbox" name="options" onchange="ias_map(2)" id="ias3" autocomplete="off"> ИАС-Ф
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input type="checkbox" name="options" onchange="ias_map(3)" id="chains" autocomplete="off"> Цепи
+                                    </label>
+                                </div>
+                            </form>
+                            <hr class="hr-add">
+                            <form action="javascript:clear_highlight()" class="text-center">
+                                <div class="btn-group btn-group-toggle" style="margin: .5rem 0 0 0;">
+                                    <input class="btn btn-secondary" id="highlight_button" disabled type="submit" value="Убрать выделения с текста">
+                                </div>
+                            </form>
+                            <hr class="hr-add">
+                            <form action="javascript:inter_analyze(false, true)" class="text-center">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                    <label class="btn btn-secondary">
+                                        <input type="checkbox" name="group_chain" onchange="inter_analyze()" id="group_chain" autocomplete="off" class="btn btn-secondary"> Группировка цепей
+                                    </label>
+                                </div>
+                            </form>
+                            {% if request.path[:10] != "/base/text" %}
+                                <hr class="hr-add">
+                                <form action="javascript:start()" class="text-center">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: .5rem 0 0 0;">
+                                        <input class="btn btn-info" onclick="start()" id="noname_button" disabled type="submit" value="Сохранить анализ">
+                                    </div>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="{% if request.path[:10] == '/base/text' %} col-md-12 col-lg-4 {% else %}col-md-12 col-lg-6 {% endif %}  list">
+                {% with messages = get_flashed_messages(category_filter='replaced_words') %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-primary" role="alert" align="center">
+                                {{message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="tab-content" id="nav-tabContent">
+                    {% if analyzed_text %}
+                        <form method=post action={{ url_for('phonotext.start', text_id=analyzed_text.id) }} id="start_form" class="text-center">
+                            <div class="input-group" style="padding-bottom: 2rem">
+                                <div class="input-group-prepend" {% if request.path[:10] != "/base/text" %} style="width: 50%" {% else %} style="width: 100%; text-align: center;" {% endif %}>
+                                    <div class="input-group-text" id="inter_text"
+                                         {% if request.path[:10] != "/base/text" %} style="width: 100%; display: block; text-align: left;" {% else %} style="width: 100%; display: block; text-align: center;" {% endif %}>
+                                        <div>
+                                            {% set iter = namespace(a=-1) %}
+                                            {% for line in analyzed_text.base %}
+                                                {% for span in line %}
+                                                    {%- if span[1] == 1 -%}
+                                                        {%- set iter.a = iter.a + 1 -%}
+                                                            {%- if iter.a < analyzed_text.syll.__len__() -%}
+                                                            <span class="base base-{{analyzed_text.syll[iter.a][1]}}">
+                                                            {%- endif -%}
+                                                    {%- else -%}
+                                                        <span class="base base--1">
+                                                    {%- endif -%}
+                                                    {{-span[0]-}}
+                                                    {%- if span[1] == 1 -%}
+                                                        {%- if iter.a < analyzed_text.syll.__len__() -%}
+                                                            {%- if analyzed_text.syll[iter.a][1] in analyzed_text.accents[1] -%}
+                                                                <span class="accent">&#769;</span>
+                                                            {%- endif -%}
+                                                            {%- if analyzed_text.syll[iter.a][1] in analyzed_text.accents[2] -%}
+                                                                <span class="accent">&#768;</span>
+                                                            {%- endif -%}
+                                                        {%- endif -%}
+                                                    {%- endif -%}
+                                                    </span>
+                                                {%- endfor -%}
+                                                <br />
+                                                {% set iter.a = iter.a + 1 %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea
+                                    {% if request.path[:10] != "/base/text" %} class="form-control" cols="35" style="width: 50%" {% else %} hidden {% endif %}
+                                    placeholder="Введите стих" name="text" maxlength="5500" id="text_ed"
+                                    >{% set iter = namespace(a=-1) %}{%- for line in analyzed_text.base -%}{%- for span in line -%}{{-span[0]-}}{%- endfor -%}&#13;&#10;{% set iter.a = iter.a + 1 %}{%- endfor -%}</textarea>
+                            </div>
+                        </form>
+                    {% else %}
+                        <form method=post action={{ url_for('phonotext.start', text_id=0) }} id="start_form" class="text-center">
+                            <div class="tab-pane fade show active" id="base-text" role="tabpanel" aria-labelledby="list-home-list" style="border: none">
+                                <textarea class="form-control" placeholder="Введите стих" name="text" id="text_ed" cols="35" rows="23">{{text}}</textarea>
+                            </div>
+                        </form>
+                        <form action="javascript:start()" class="text-center">
+                            <input class="btn btn-primary" type="submit" value="Сохранить анализ">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="{% if request.path[:10] == '/base/text' %} col-md-12 col-lg-4 {% else %} col-md-12 col-lg-3  {% endif %} list right-col">
+                <div class="jumbotron right-jumb">
+                    <ul class="nav nav-tabs nav-fill" id="list-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="list-home-list" data-toggle="list" href="#all" role="tab" aria-controls="home">Повторы</a></li>
+                        <li class="nav-item"><a class="nav-link" id="list-messages-list" data-toggle="list" href="#two" role="tab" aria-controls="messages">Общее</a></li>
+                        <li class="nav-item"><a class="nav-link" id="list-settings-list" data-toggle="list" href="#three" role="tab" aria-controls="settings">Ударения</a></li>
+                    </ul>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="list-home-list"></div>
+                        <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="list-messages-list"></div>
+                        <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="list-settings-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

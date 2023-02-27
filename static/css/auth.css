@@ -1,0 +1,45 @@
+h1{
+	text-align: center;
+}
+
+form{
+	width: 600px;
+}
+
+input, label{
+	width: 200px;
+	text-align: left;
+	display: inline-block;
+}
+
+#table{
+	border-width: 2px 1px;
+	border-color: black;
+	border-style: solid;
+	text-align: center;
+	padding: 0px;
+	display: inline-block;
+	width: 1002px;
+}
+
+.div-row-table{
+	padding: 0px;
+	margin: 0px;
+	height: 2rem;
+}
+
+.div-row-table > span{
+	border-style: solid;
+	border-color: black;
+	border-width: 0px 1px;
+	height: 2rem;
+	display: inline-block;
+	width: 200px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 3px;
+}
+
+.header{
+	border-bottom: 1px solid black;
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block baseurl %}
+<!-- <a class="nav-link" href="{{ url_for('phonotext.index') }}">Фонотекст</a> -->
+{% endblock %}
+
+{% block name %}PHONOTEXT{% endblock %}
+
+{% block submenu %}
+    {% if g.user %}
+        {% if request.path[:10] == "/base/text" or request.path[:10] == "/base/edit" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('phonotext.doc_download', doc_id=analyzed_text.id) }}">Скачать в .doc</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('phonotext.txt_download', txt_id=analyzed_text.id) }}">Скачать в .txt</a>
+                </li>
+                {% if g.user.config['id'] == analyzed_text.user_id %}
+                    {% if request.path[:10] != "/base/edit" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('phonotext.edit_analyze', analyze_id=analyzed_text.id) }}">Редактировать</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('phonotext.analyze', analyze_id=analyzed_text.id) }}">Вернуться к тексту</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('phonotext.delete_analyze', text_id=analyzed_text.id) }}">Удалить</a>
+                    </li>
+                {% endif %}
+        {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('phonotext.dict_edit') }}">Редактировать словари</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('static', filename='files/manual.pdf')}}" class="nav-link" >Руководство пользователя</a>
+                </li>
+        {% endif %}
+    {% endif %}
+{% endblock %}

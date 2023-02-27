@@ -1,0 +1,42 @@
+{% extends 'livedict/base.html' %}
+
+{% block name %}{% block title %}Конкорданс{% endblock %}{% endblock %}
+
+
+{% block content %}
+<div style="padding: 20px;text-align: left;">
+<h3 style="text-align: center">
+	Конкордансы
+</h3>
+
+<ul>
+<li>Сказки Воронежской губернии. Конкорданс</li>
+<ul>
+	<li><a href="{{ url_for('static', filename='files/Сказки Воронежской губернии/АИКретовСборник.doc') }}">Сказки Воронежской губернии. Сборник</a></li>
+	<li><a href="{{ url_for('static', filename='files/Сказки Воронежской губернии/Конкорданс ВорСказ АфанКрет.xlsx') }}">Конкорданс</a></li>
+	<li><a href="{{ url_for('static', filename='files/Сказки Воронежской губернии/перечень СказВорОбл АфанКрет.xlsx') }}">Перечень</a></li>
+
+</ul>
+<li>Русские народные сказки, рассказанные А.Н. Корольковой. Конкорданс</li>
+<ul>
+	<li><a href="{{ url_for('static', filename='files/Королькова - Сказки/КорольковАннаСказки2.docx') }}">Русские народные сказки, рассказанные А.Н. Корольковой / сост. и отв. ред. Э.В. Померанцева. М., 1969</a></li>
+	<li><a href="{{ url_for('static', filename='files/Королькова - Сказки/КонкорданСказокА.Н.Корольковой.xlsx') }}">Конкорданс</a></li>
+</ul>
+	<li><a href="{{ url_for('static', filename='files/конкорданс Афанасьева-П.xlsm') }}">Народные русские сказки А. Н. Афанасьева. Конкорданс.</a></li>
+<li>Конкорданс лирики И.С. Никитина</li>
+<ul>
+	<li><a href="{{ url_for('static', filename='files/Лирика И.С. Никитина/НиКонкЯ-1.xlsx') }}">Конкорданс лирики И.С. Никитина</a></li>
+	<li><a href="{{ url_for('static', filename='files/Лирика И.С. Никитина/NikitinConc.zip') }}">Конкорданс лирики И.С. Никитина (лемматизированный)</a></li>
+</ul>
+	<li><a href="{{ url_for('static', filename='files/Лирика А.В. Кольцова/Klcv-Cnd.xls') }}">Конкорданс лирики А.В. Кольцова</a></li>
+</ul></div>
+
+
+{% endblock %}
+
+{% block bottom %}
+© Живой стилистический словарь русского языка. Авторы. 2018
+{% endblock %}
+
+
+

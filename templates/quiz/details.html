@@ -1,0 +1,19 @@
+{% extends 'quiz/base.html' %}
+
+{% block name %}{% block title %}Quiz{% endblock %}{% endblock %}
+
+{% block content %}
+<div class="quizlist">
+
+Выберите опрос<br/>
+  <div id="table">
+    <div class="div-form-row2 header"><span >
+     Name </span><span > Data
+    </span></div>
+{% if list %}
+	{% for a in list %}
+		<div class="div-form-row2" ><span >{{ a }}</span><span >{{ list[a] }}</span></div>
+	{% endfor %}
+{% endif %}
+</div></div>
+{% endblock %}

@@ -1,0 +1,25 @@
+text {
+	font-size:12px;
+}
+#sord_summary{
+	display: inline-block;
+	text-align: left;
+}
+
+#sord_summary td {padding: 2px 10px;}
+
+#sord_summary tr:nth-child(odd) {background: #C0FFC0}
+
+#sord_summary tr:nth-child(even) { background: #F0FFF0 }
+
+#word-portrait {width:700px; height: 700px; padding-left: calc (50vw - 175px); }
+
+#text_visual{
+	text-align: left;
+	padding: 20px;
+}
+
+#color_text > span{
+	color: var(--main-color);
+	display: none;
+}

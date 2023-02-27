@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block name %}
+SYLLABICA
+{% endblock %}
+
+{% block baseurl %}
+&nbsp
+{% endblock %}
+
+
+{% block submenu %}
+    {%if g.user %}
+        <ul class="navbar-nav form-inline my-1 my-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.edit') }}">{{ g.user.config['username'] }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Выход</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+

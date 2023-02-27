@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block name %}{% block title %}SYLLABICA{% endblock %}{% endblock %}
+
+{% block baseurl %}
+{% endblock %}
+
+{% block submenu %}
+{% endblock %}
+
+Dokladchast1.mp4
+Dokladch2.mp4
+Dokladch3.mp4
+Doklad22sek.mp4
+Dokladch.4.mp4
+
+{% block content %}
+<center>
+<video width="320" height="240" controls>
+  <source src="{{ url_for('static', filename='videos/Dokladchast1.mp4')}}" type="video/mp4">
+</video>
+<video width="320" height="240" controls>
+  <source src="{{ url_for('static', filename='videos/Dokladch2.mp4')}}" type="video/mp4">
+</video>
+<video width="320" height="240" controls>
+  <source src="{{ url_for('static', filename='videos/Dokladch3.mp4')}}" type="video/mp4">
+</video>
+<video width="320" height="240" controls>
+  <source src="{{ url_for('static', filename='videos/Doklad22sek.mp4')}}" type="video/mp4">
+</video>
+<video width="320" height="240" controls>
+  <source src="{{ url_for('static', filename='videos/Dokladch.4.mp4')}}" type="video/mp4">
+</video>
+</center>
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

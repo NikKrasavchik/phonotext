@@ -1,0 +1,47 @@
+{% extends 'livedict/base.html' %}
+
+{% block name %}{% block title %}Главная{% endblock %}{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	pre{
+		color: red;
+		display: inline;
+	}
+</style>
+<h1 style="margin:50px 0px;">ЖИВОЙ СТИЛИСТИЧЕСКИЙ СЛОВАРЬ РУССКОГО ЯЗЫКА</h1>
+<smaller><strong>Лингвистическая подготовка и создание электронного<br/>
+«Живого стилистического словаря русского языка»<br/>
+Linguistic Development and Creation of the Electronic Live Stylistic Dictionary of Russian</strong><br/>
+Создан при поддержке РФФИ (грант № 17-04-00421)
+</smaller>
+<div style="margin: 50px 0px;">
+<a class="btn btn-outline-primary" href="{{ url_for('livedict.predict_word_OLD') }}">Словарь</a>
+<a class="btn btn-outline-primary" href="{{ url_for('livedict.predict_text') }}">Стилевой подсказчик</a>
+<!-- <a class="btn btn-outline-primary" href="{{ url_for('livedict.history_word') }}">Историческая картина слова</a> -->
+<a class="btn btn-outline-primary" href="{{ url_for('quiz.dump') }}">Просмотр корпуса словаря</a>
+<a class="btn btn-outline-primary" href="{{ url_for('static', filename='files/manual_site.pdf') }}">Краткое руководство</a>
+</div>
+
+<!-- <strong> Приложения к отчету по гранту РФФИ № 17-04-00421</strong> -->
+<ol style="text-align: left; max-width: 21cm; padding: 20px 0px;"> 
+<!-- <li><a href="{{ url_for('static', filename='files/Файл_3 Теретич.,практ.и илл.доп. материалы.pdf') }}">Векшин Г.В., Кретов А.А., Кукушкина Е.Ю., Леденева В.В., Шилихина К.М.<br/>
+	Социокультурно обусловленная стилистическая семантика русского языка: социально-жанровый компонент (к алгоритмам описания лексики в проекте «Живого стилистического словаря русского языка»).<br/> Лингвистические материалы. 2018.</a></li>
+<li><a href="{{ url_for('livedict.applic') }}">Конкордансы. 2018.</a></li>
+<li><a href="{{ url_for('static', filename='files/reportMaximov.pdf') }}">Материалы программных и  IT разработок. Функционал словаря. 2018.</a></li>
+<li><a href="{{ url_for('static', filename='files/Публикации.pdf') }}">Публикации</a></li>
+ -->
+ </ol>
+ <a href="{{ url_for('static', filename='files/res.zip') }}">Дамп стилевых характеристик словаря. Формат - <pre>.csv</pre>, разделитель — <pre>";"</pre>, первая строка — заголовки, кодировка — <pre>utf8/65001</pre>, размер — 1.9Gb(архив — 415Mb).</a>
+ 
+
+{% endblock %}
+
+{% block bottom %}
+© Живой стилистический словарь русского языка. <br/>
+Векшин Г.В., Герцев М.Н., Максимов Е.C. <br/>
+<span style="position: absolute; right: 0px; display: block; padding: 3px 10px;">2017 — 2020 г.г.</span>
+{% endblock %}
+
+
+

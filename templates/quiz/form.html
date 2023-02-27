@@ -1,0 +1,50 @@
+{% extends 'quiz/base.html' %}
+
+{% block name %}{% block title %}Quiz{% endblock %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+	new_i = 0;
+	function ins_check(text, el){
+		console.log(text);
+		console.log(el);
+		el.outerHTML = '<input type="checkbox" checked name="' + text + '" value="new' + new_i + '" style=\"z-index:-1;\"><input class=new name="new' + new_i + '"/><br/><span class="quiz_btn" onclick="ins_check(\'' + text + '\', this)">Добавить</span>';
+		new_i  += 1;
+	}
+	function ins_radio(text, el){
+		console.log(text);
+		console.log(el);
+		el.outerHTML = '<input type="radio" checked name="' + text + '" value="new' + new_i + '" style=\"z-index:-1\"><input class=new name="new' + new_i + '"/>';
+		new_i += 1;
+	}
+	window.onload = function(){
+	{% if data %}
+	{% for a in data %}
+		tmp = $('*[name={{ a }}]');
+		tmp.val("{{ data[a] }}");
+		tmp.attr('checked','checked');
+		if ( tmp.hasClass('slider') && "{{ data[a] }}" != "None") {
+			tmp.slider('setValue', "{{ data[a] }}".match(/[+-]?\d*\.?\d*/)[0] - 0);
+		};
+	{% endfor %}
+	{% endif %}
+	}
+
+
+</script>
+
+<form method="post" action=?>
+<div id="progress_bar" style="height:5px; background-color: #B0B0FF;margin-left: 5vw; position: absolute; top:130px;"> </div>
+{% autoescape false %}
+{{form}}
+{% endautoescape %}
+<div class="quiz_section form-group"><div class="quiz_content">
+<input type="submit" value="Отправить" class="btn btn-primary" style="padding:2rem;"/>
+</div></div>
+<div style="position: absolute; bottom: 40px; font-size: 50px;cursor: pointer;width: 100vw" id="bot_nav">
+<span class="quiz_btn" id="pervious_page"> ⇦ </span><span style="display: inline-block;width: 300px"></span>
+<span class="quiz_btn" id="next_page"> ⇨ </span>
+</div>
+</form>
+
+{% endblock %}

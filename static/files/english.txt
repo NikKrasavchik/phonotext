@@ -1,0 +1,90 @@
+---
+volves: 
+  - "--endl"
+  - "\n"
+  - "a"
+  - "e"
+  - "i"
+  - "o"
+  - "u"
+  - "y"
+  - "au"
+  - "ea"
+  - "ee"
+  - "eu"
+  - "ie"
+  - "oa"
+  - "ou"
+  - "oe"
+  - 'ya'
+  - 'ay'
+  - 'ye'
+  - 'ey'
+  - 'yi'
+  - 'iy'
+  - 'yo'
+  - 'oy'
+  - 'yu'
+  - 'uy'
+
+consonants:
+  - 'x'
+  - 'z'
+  - 'p'
+  - 'q'
+  - 'r'
+  - 's'
+  - 't'
+  - 'v'
+  - 'w'
+  - 'h'
+  - 'j'
+  - 'k'
+  - 'l'
+  - 'm'
+  - 'n'
+  - 'b'
+  - 'c'
+  - 'd'
+  - 'f'
+  - 'g'
+  - 'ch'
+  - 'ck'
+  - 'ph'
+
+alphabet: abcdefghijklmnopqrstuvwxyz
+
+as_same: 
+  - bp
+  - [f, v, w, ph]
+  - [j, ch]
+  - [k, ck]
+  - dt
+  - ["--endl", "\n"]
+  - ["|", " "]
+  
+as_one: 
+  - "au"
+  - "ea"
+  - "ee"
+  - "eu"
+  - "ie"
+  - "oa"
+  - "ou"
+  - "oe"
+  - 'ya'
+  - 'ay'
+  - 'ye'
+  - 'ey'
+  - 'yi'
+  - 'iy'
+  - 'yo'
+  - 'oy'
+  - 'yu'
+  - 'uy'
+  - 'ch'
+  - 'ck'
+  - 'ph'
+
+modifications:
+  []

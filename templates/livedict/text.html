@@ -1,0 +1,43 @@
+{%- extends 'livedict/base.html' -%}
+
+{%- block content -%}
+<h2>Стилевой подсказчик</h2>
+
+
+<form action="" method="post" name="vis" class="form" style="padding: 0px 4vw;">
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Введите текст</span>
+  </div>
+  <textarea type="text" name="word" class="form-control" placeholder="" style="height: 250px;" >
+    {%- if word -%}{{word}}{%- endif -%}
+  </textarea>
+  <div class="input-group-append">
+    <button type="submit" class="btn btn-outline-primary">Отобразить</button></span>
+  </div>
+</div>
+</form>
+
+{%- if word -%}
+    {%- if images -%}
+        {%- for image in images -%}
+            <div>
+            {%- autoescape false -%}
+                  {{ image }}
+            {%- endautoescape -%}
+            </div>
+        {%- endfor -%}
+    {%- endif -%}
+<!--     <a class="btn btn-outline-primary" onclick="set_color('--main-color')">Суммарный</a>
+    <a class="btn btn-outline-primary" onclick="set_color('--color-f')">Разговорный</a>
+    <a class="btn btn-outline-primary" onclick="set_color('--color-g')">Книжный</a>
+    <div style="zoom:0.6;padding: 5px;display: None;">
+      <a class="btn btn-outline-primary" onclick="set_color('--color-a')">Худужественный</a>
+      <a class="btn btn-outline-primary" onclick="set_color('--color-b')">Религиозный</a>
+      <a class="btn btn-outline-primary" onclick="set_color('--color-c')">Научный</a>
+      <a class="btn btn-outline-primary" onclick="set_color('--color-d')">Идеалогический</a>
+      <a class="btn btn-outline-primary" onclick="set_color('--color-e')">Официально-деловой</a>
+    </div> -->
+{%- endif -%}
+
+{%- endblock -%}

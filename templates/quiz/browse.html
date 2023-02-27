@@ -1,0 +1,60 @@
+{% extends 'quiz/base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block header %}
+  <h2>Результаты опроса. Записей : {{ count }}</h2>
+{% endblock %}
+
+{% block content %}
+<style>#table_full > .div-form-row,.subdiv{width:{{ (headers.__len__() + 2) * 200 }}px;}</style>
+<form method="post" action=? class="row" style="width:90vw">
+  <div class="input-group mb-1">
+    <div class="input-group-prepend">
+      <input type="button" class="btn btn-outline-secondary" data-html="true" data-toggle="tooltip" data-placement="bottom" title="" value="help" data-original-title="<div align=left>Вывод 30 первых результатов. Примеры запросов: <br/> N > 40 <br/> user = 1 and N > 40 <br/> field1 like %текст%</div>">
+    </div>
+      <input class="form-control" name="where" type="text" value="{{ request }}">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-outline-primary">Запрос</button>
+    </div>
+  </div>
+  {% if g.user.is_expert %}
+  <div class="input-group">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Все"    onclick="$('*[name=where]').val('1')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Художественный" onclick="$('*[name=where]').val('field7 like \'%1%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Религиозный"    onclick="$('*[name=where]').val('field7 like \'%2%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Научный"        onclick="$('*[name=where]').val('field7 like \'%3%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Идеологический" onclick="$('*[name=where]').val('field7 like \'%4%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Официально-деловой"  onclick="$('*[name=where]').val('field7 like \'%5%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+      <input type="button" class="btn btn-sm btn-outline-secondary form-control" title="" value="Разговорный"    onclick="$('*[name=where]').val('field7 like \'%6%\' AND NOT EXISTS (SELECT N FROM checked WHERE question.N = checked.N) ORDER BY N DESC')">
+  </div>
+  {% endif %}
+</form>
+
+  <div id="table_full">
+    <header class="div-form-row">
+      <span> N </span><span> user </span>
+      {%- for i in range(headers.__len__()) -%}
+        <span><a href="javascript:$('#help{{ i }}').css('visibility',$('#help{{ i }}').css('visibility')=='visible'?'hidden':'visible')">{{ headers[i][1] }}</a></span>
+      {%- endfor -%}
+    </header>
+  {% for row in rows %}
+    <div class="div-form-row">
+      {%- if g.user.is_expert -%}
+      <span><a href="{{ url_for('quiz.ans_edit') }}{{ qid }}/{{ row[0] }}">{{ row[0] }}</a></span><span><a href="{{ url_for('auth.edit') }}/{{ row[1] }}">{{ row[1] }}</a></span>
+      {%- else -%}
+      <span><a href="{{ url_for('quiz.details') }}{{ qid }}/{{ row[0] }}">{{ row[0] }}</a></span><span>{{ row[1] }}</span>
+      {%- endif -%}
+      {% for i in range(headers.__len__()) -%}
+        <span>{{ row[2 + i] }}</span>
+      {%- endfor -%}
+    </div>
+  {%- endfor %}
+  </div>
+  {% for i in range(forms.__len__()) %}
+    <div id="help{{ i }}" class='helper'><pre>{{ forms[i] }}</pre></div>
+  {% endfor %}
+
+{% endblock %}

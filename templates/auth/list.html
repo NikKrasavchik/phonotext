@@ -1,0 +1,22 @@
+{% extends 'auth/base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}Список пользователей config.{% endblock %}</h1>
+{% endblock %}
+
+{% block content -%}
+  <div id="table">
+    <div class="div-row-table header"><span>
+     Name </span><span> E-mail </span><span> Status </span><span> Access Level </span><span> Link 
+    </span></div>
+  {%- for a in users -%}
+    <div class="div-row-table"><span>
+     {{ a["username"] }} </span><span> {{ a["email"] }} </span><span> {{ a["status"] }} </span><span> {{ a["accesslvl"] }} </span><span> <a href="{{ url_for("auth.edit") }}/{{ a["id"] }}">Edit</a>
+    </span></div>
+  {%- endfor -%}
+  </div>
+{% endblock %}

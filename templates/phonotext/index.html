@@ -1,0 +1,89 @@
+{% extends 'phonotext/base.html' %}
+
+{% block content %}
+<section id="search_section" style="display: none">
+    <div class="container-fluid">
+        <div id="search_hist" class="row align-items-center justify-content-center"></div>
+    </div>
+</section>
+
+<section style="text-align: left">
+    <div id="message_block">
+        {% with messages = get_flashed_messages(category_filter=('autoreplace', 'main', 'text')) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert" align="center">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="container-fluid text-input">
+        <div class="search">
+            <div class="jumbotron" style="padding-left: 0px;padding-right: 0px;">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <form id="accent_add" method=post action="javascript:accent_red('add')">
+                            <input type="button" style="border-radius: 0.5rem 0 0 0.5rem;padding-left: 0.1rem;padding-right: 0.1rem;color: #778899;" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title='Для работы со словарём ударений, введите одно слово, выделив ударную гласную символом "1". Пример: "удар1ение". Если слово имеет побочное ударение, используйте символ "2" перед гласной, с побочным ударением. Пример: "в2ице-презид1ент". После, нажмите на &#10004;, для добавления слова, либо на &#10008;, для его удаления из словаря. Для вариантов слов с выборочным ударением ("у́же", "уже́") записывайте каждый вариант отдельно.' value="?">
+                            <input type="text" id="accent_input" name="accent_word" placeholder='Словарь ударений'>
+                            <div class="btn-group">
+                                <input class="btn btn-success" form="accent_add" type="submit" name="accent_add" Value="&#10004;" title="Добавить в словарь ударений">
+                                <input class="btn btn-danger" form="accent_del" type="submit" name="accent_del" Value="&#10008;" title="Удалить из словаря ударений">
+                            </div>
+                        </form>
+                        <form id="accent_del" method=post action="javascript:accent_red('del')"></form>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <form method=post action="javascript:search()">
+                            <input type="button" style="border-radius: 0.5rem 0 0 0.5rem;padding-left: 0.1rem;padding-right: 0.1rem;color: #778899;" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title='Введите интересующий фрагмент произведения, для поиска по всем уже существующим открытым анализам.' value="?">
+                            <input id="search_input" type="text" name="search" placeholder="Поиск по строке">
+                            <input class="btn btn-info" type="submit" Value="Поиск">
+                        </form>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <form id="dict_add" method=post action="javascript:dict_red('add')">
+                            <input type="button" style="border-radius: 0.5rem 0 0 0.5rem;padding-left: 0.1rem;padding-right: 0.1rem;color: #778899;" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title='Для работы со словарём автозамены, введите одно слово содержащее "ё". Регистр не имеет значения. После нажмите на &#10004;, для добавления слова, либо на &#10008;, для его удаления из словаря.' value="?">
+                            <input type="text" id="autoreplace_input" name="word" placeholder="Словарь автозамены">
+                            <div class="btn-group">
+                                <input class="btn btn-success" form="dict_add" type="submit" name="add" Value="&#10004;" title="Добавить в автозамену">
+                                <input class="btn btn-danger" form="dict_del" type="submit" name="del" Value="&#10008;" title="Удалить из автозамены">
+                            </div>
+                        </form>
+                        <form id="dict_del" method=post action="javascript:dict_red('del')"></form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3 text-center">
+                <div class="jumbotron title" id="all_title">Пользовательские анализы</div>
+                <div id="all_hist"></div>
+			</div>
+            <div class="col-sm-6">
+                <form method=post id="interact" action="javascript:index_start('english')" class="text-center">
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Введите стих" name="main_text" id="main_text" cols="30"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <input class="btn btn-outline-primary" type="submit" value="English" form="interact">
+                        <input class="btn btn-outline-primary" type="submit" value="Русский" form="interact_ru">
+                    </div>
+                </form>
+                <form method=post id="interact_ru" action="javascript:index_start('russian')" class="text-center"></form>
+            </div>
+            <div class="col-sm-3 text-center my-hist-parent">
+                <div class="jumbotron title" id="my_title">Мои анализы</div>
+                <div id="my_hist"></div>
+            </div>
+		</div>
+    </div>
+</section>
+{% endblock %}

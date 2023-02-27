@@ -1,0 +1,55 @@
+{% extends 'auth/base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}{{ user['username'] }} config. User id is [{{ user['id'] }}]{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+  <div class="form-group row">
+    <label for="staticEmail" class="col-sm-3 col-form-label">Name</label>
+    <div class="col-sm-9">
+      <input name="name" type="text" class="form-control" value="{{ user['username'] }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="staticEmail" class="col-sm-3 col-form-label">Email</label>
+    <div class="col-sm-9">
+      <input name="email" type="email" class="form-control" value="{{ user['email'] }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-3 col-form-label">Current password</label>
+    <div class="col-sm-9">
+      <input name="cpassword" type="password" class="form-control" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-3 col-form-label">New password</label>
+    <div class="col-sm-9">
+      <input name="npassword" type="password" class="form-control" placeholder="Password">
+    </div>
+  </div>
+  {% if g.user.is_admin %}
+    <div class="form-group row">
+      <label for="staticEmail" class="col-sm-3 col-form-label">Status</label>
+      <div class="col-sm-9">
+        <input name="status" type="text" class="form-control" value="{{ user['status'] }}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="staticEmail" class="col-sm-3 col-form-label">Access level</label>
+      <div class="col-sm-9">
+        <input name="accesslvl" type="text" class="form-control" value="{{ user['accesslvl'] }}">
+      </div>
+    </div>
+  {% endif%}
+  <button type="submit" class="btn btn-primary">Submit</button>
+{% if g.user.is_admin %}
+<hr/><a href="{{ url_for('auth.list') }}"> Список всех пользователей </a>
+{% endif%}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block name %}{% block title %}SYLLABICA{% endblock %}{% endblock %}
+
+{% block baseurl %}
+{% endblock %}
+
+{% block submenu %}
+{% endblock %}
+
+{% block content %}
+<style>
+  a {
+    margin: 10px;
+  }
+</style>
+<center>
+    <a class="btn btn-outline-primary" href="http://livedict.syllabica.com/">Живой стилистический словарь русского языка</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('quiz.list') }}">Работа базами данных</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('mikl.index') }}">Фонотекст</a>
+<!--     <a class="btn btn-outline-primary" href="{{ url_for('show_videos') }}">Видео файлы</a> -->
+</center>
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

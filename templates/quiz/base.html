@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block baseurl %}
+<a class="nav-link" href="{{ url_for('quiz.list') }}">Базы</a>
+{% endblock %}
+
+{% block submenu %}
+        <ul class="navbar-nav form-inline my-1 my-lg-0">
+                <li class="nav-item"><a class="nav-link" style="cursor: pointer;" onclick="qz_plus()">➕</a></li>
+                <li class="nav-item"><a class="nav-link" style="cursor: pointer;" onclick="qz_minus()">➖</a></li>
+                <li class="nav-item"><a class="nav-link" style="cursor: pointer;" onclick="qz_all()">All</a></li>
+                <li class="nav-item"><a class="nav-link" style="cursor: pointer;" onclick="qz_all_no()">No</a></li>
+        </ul>
+{% endblock %}
+
+{% block name %}{% block title %}Quiz{% endblock %}{% endblock %}
+
+{% block content %}
+<div class="quizlist">
+{% if g.user.is_admin %}
+<a href={{ url_for('quiz.quiz_page', quiz_id='new')}}> Создать новый </a><hr/>
+{% endif %}
+Выберите опрос<br/>
+  <div id="table">
+    <div class="div-form-row2 header"><span>
+     Name </span><span> Browse db </span>
+</div>
+{% if list %}
+	{% for a in list %}
+		<div class="div-form-row2" >
+      <a href={{ url_for('quiz.quiz_page', quiz_id=a)}}>{{ list[a].get_name() }}</a><span><a href={{ url_for('quiz.browse', quiz_id=a)}} style="padding-right: 30px">Browse</a>
+      {% if g.user.is_expert %}
+        <a href={{ url_for('quiz.ans_edit', quiz_id=a)}}> Провести экспертную оценку </a>
+      {% endif %}</span>
+    </div>
+
+	{% endfor %}
+{% endif %}
+</div></div>
+{% endblock %}
+
+{% block bottom %}
+Gemial
+{% endblock %}

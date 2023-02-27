@@ -1,0 +1,64 @@
+{% extends 'livedict/base.html' %}
+
+{% block content %}
+<h2>Стилистическая характеристика</h2>
+
+
+<form action="" method="post" name="vis" class="form" style="padding: 0px 4vw;">
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Введите слово</span>
+  </div>
+  <input type="text" name="word" class="form-control" placeholder="" value="{% if word %}{{word}}{% endif %}" />
+  <div class="input-group-append">
+    <button type="submit" class="btn btn-outline-primary">Отобразить</button></span>
+  </div>
+</div>
+</form>
+
+{% if word %}
+    <style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-juju{font-family:"Courier New", Courier, monospace !important;width: 50px ;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<table class="tg">
+  <tr>
+    <th class="tg-juju" style="background-color:rgb(34, 177, 76)">     </th>
+    <th class="tg-0lax">Оценке словаря можно доверять</th>
+  </tr>
+  <tr>
+    <td class="tg-0lax" style="background-color:rgb(119, 149, 28)">    </td>
+    <td class="tg-0lax">Оценке словаря скорей доверять</td>
+  </tr>
+  <tr>
+    <th class="tg-juju" style="background-color:rgb(255, 128, 64)">    </th>
+    <th class="tg-0lax">Оценке словаря скорее не доверять</th>
+  </tr>
+  <tr>
+    <td class="tg-0lax" style="background-color:rgb(240, 68, 77)">     </td>
+    <td class="tg-0lax">Оценке словаря доверять не стоит</td>
+  </tr>
+</table>
+    <h3> {{word}} </h3>
+    <div style="text-align: right; padding-right: calc( 50vw - 6cm);">
+    {% if images %}
+        {% for image in images %}
+            <br/>
+	    {% autoescape false %}
+            {{ image }}
+	    {% endautoescape %}
+            <br/>
+        {% endfor %}
+    {% else %}
+        <h3> Такого слова нет в базе! </h3>
+    {% endif %}
+    </div>
+    {% endif %}
+
+{% endblock %}
